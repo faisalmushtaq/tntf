@@ -147,13 +147,12 @@ plot_attendance_over_time(db)
 *Each dot is the number of players who turned up that Tuesday. The dashed
 line is the season average, so dots above it were busy nights.*
 
-```{r calendar, fig.height=6.5}
-plot_calendar_heatmap(db)
+```{r format, fig.height=4.5}
+plot_format_over_time(db)
 ```
 
-*A calendar view of the season: each tile is a match night, labelled with the
-date and the number of players. Darker orange means a fuller pitch. The gap
-in late February and March is plain to see.*
+*Each dot is a match night, categorised by format: with two teams of roughly
+equal size, the night is either 5-, 7- or 8-a-side.*
 
 # Player Statistics
 

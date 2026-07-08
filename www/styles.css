@@ -7,5 +7,20 @@
 
 .navbar-brand { letter-spacing: 0.03em; }
 
-/* keep DT tables comfortable on small screens */
+/* keep DT tables comfortable and scrollable on small screens */
 table.dataTable { font-size: 0.9rem; }
+.dataTables_wrapper { overflow-x: auto; }
+
+/* plots and widgets never overflow their card */
+.shiny-plot-output, .plotly, .js-plotly-plot { max-width: 100%; }
+
+/* phone-sized screens: tighter chrome, shorter plots, smaller stat tiles */
+@media (max-width: 576px) {
+  .card { --bs-card-spacer-y: 0.6rem; --bs-card-spacer-x: 0.6rem; }
+  .value-box-value { font-size: 1.4rem !important; }
+  .value-box-title { font-size: 0.8rem; }
+  .bslib-value-box .value-box-showcase { display: none; }
+  .shiny-plot-output { min-height: 240px; }
+  table.dataTable { font-size: 0.8rem; }
+  h4 { font-size: 1.15rem; }
+}

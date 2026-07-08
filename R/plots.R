@@ -320,30 +320,26 @@ plot_cumulative_appearances <- function(db, label_top = 8) {
     theme_tnf()
 }
 
-#' Calendar heatmap of attendance
+#' Match format (5/7/8-a-side) over time
 #' @export
-plot_calendar_heatmap <- function(db) {
+plot_format_over_time <- function(db) {
   d <- db$matches |>
-    dplyr::mutate(month = lubridate::floor_date(date, "month"),
-                  week = (lubridate::mday(date) - 1) %/% 7 + 1,
-                  month_lab = factor(format(month, "%b %Y"),
-                                     levels = unique(format(sort(month), "%b %Y"))))
-  ggplot2::ggplot(d, ggplot2::aes(week, forcats::fct_rev(month_lab),
-                                  fill = attendance)) +
-    ggplot2::geom_tile(colour = "white", linewidth = 1.5) +
-    ggplot2::geom_text(ggplot2::aes(label = paste0(format(date, "%d"), "\n",
-                                                   attendance)),
-                       size = 2.8, fontface = "bold", colour = "grey20",
-                       lineheight = 0.9) +
-    ggplot2::scale_fill_gradient(low = "#FFF3D6", high = tnf_colors$bibs) +
-    ggplot2::coord_fixed(0.6) +
-    ggplot2::labs(title = "The Tuesday calendar",
-                  subtitle = "Every match night: date (top) and players who turned up (bottom); darker = busier",
-                  x = "Week of month", y = NULL, fill = "Players") +
-    theme_tnf() +
-    ggplot2::theme(panel.grid = ggplot2::element_blank(),
-                   legend.position = "right",
-                   legend.title = ggplot2::element_text(face = "bold"))
+    dplyr::arrange(date) |>
+    dplyr::mutate(format = match_format(attendance))
+  counts <- d |> dplyr::count(format)
+  subtitle <- paste(paste0(counts$n, "x ", counts$format), collapse = ", ")
+  ggplot2::ggplot(d, ggplot2::aes(date, format, colour = format)) +
+    ggplot2::geom_line(ggplot2::aes(group = 1), colour = tnf_colors$grid,
+                       linewidth = 0.8) +
+    ggplot2::geom_point(size = 4, show.legend = FALSE) +
+    ggplot2::scale_colour_manual(values = c("5-a-side" = tnf_colors$accent,
+                                            "7-a-side" = tnf_colors$nonbibs,
+                                            "8-a-side" = tnf_colors$bibs)) +
+    ggplot2::scale_y_discrete(drop = FALSE) +
+    ggplot2::labs(title = "What game are we playing?",
+                  subtitle = paste0("Format of each match night (", subtitle, ")"),
+                  x = NULL, y = NULL) +
+    theme_tnf()
 }
 
 #' Bump chart of monthly appearance ranks
@@ -489,7 +485,7 @@ all_figures <- function(db) {
     rolling_winpct = plot_rolling_winpct(db),
     bib_dominance = plot_bib_dominance(db),
     cumulative_appearances = plot_cumulative_appearances(db),
-    calendar_heatmap = plot_calendar_heatmap(db),
+    format_over_time = plot_format_over_time(db),
     monthly_bump = plot_monthly_bump(db),
     player_timeline = plot_player_timeline(db),
     results_alluvial = plot_results_alluvial(db),

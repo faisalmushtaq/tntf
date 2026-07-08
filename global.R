@@ -66,12 +66,16 @@ plotly_network <- function(db, min_together = 3) {
                 text = ~paste0("<b>", name, "</b><br>",
                                appearances, " appearances<br>",
                                "win rate ", fmt_pct(win_pct), "<br>",
-                               "community ", community),
+                               "community (friend cluster) ", community),
                 hoverinfo = "text", showlegend = FALSE) |>
-    add_text(data = nodes, x = ~x, y = ~y, text = ~name,
+    add_text(data = nodes, x = ~x, y = ~y,
+             text = ~sub(" ", "\n", name),
              textposition = "top center",
-             textfont = list(size = 10, color = "#1A1A1A"),
+             textfont = list(size = 9, color = "#1A1A1A"),
              showlegend = FALSE, hoverinfo = "none") |>
     layout(xaxis = list(visible = FALSE), yaxis = list(visible = FALSE),
-           plot_bgcolor = "rgba(0,0,0,0)", paper_bgcolor = "rgba(0,0,0,0)")
+           plot_bgcolor = "rgba(0,0,0,0)", paper_bgcolor = "rgba(0,0,0,0)",
+           autosize = TRUE, dragmode = "pan",
+           margin = list(l = 10, r = 10, t = 10, b = 10)) |>
+    config(responsive = TRUE, displayModeBar = FALSE, scrollZoom = TRUE)
 }

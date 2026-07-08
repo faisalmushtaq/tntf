@@ -1,7 +1,11 @@
 # app.R -- Tuesday Night Football analytics dashboard -------------------------
 #
 # Run with: shiny::runApp()
-# See README.md for the full feature tour.
+#
+# This is the public, read-only app: it is deployed as a static shinylive
+# site, so nothing viewers do can change the shared data. New team sheets
+# are added by committing to data-raw/team_sheets_raw.txt on GitHub, which
+# rebuilds and redeploys the site automatically.
 
 source("global.R")
 
@@ -13,7 +17,11 @@ ui <- page_navbar(
   title = tags$span(tags$strong("TNF"), " Analytics"),
   theme = tnf_theme,
   fillable = FALSE,
-  header = tags$head(tags$link(rel = "stylesheet", href = "styles.css")),
+  header = tags$head(
+    tags$meta(name = "viewport",
+              content = "width=device-width, initial-scale=1, maximum-scale=1"),
+    tags$link(rel = "stylesheet", href = "styles.css")
+  ),
 
   # -- Dashboard --------------------------------------------------------------
   nav_panel(
@@ -27,14 +35,14 @@ ui <- page_navbar(
       value_box("Goals / match", textOutput("vb_goals"), showcase = icon("bullseye")),
       value_box("Bibs win rate", textOutput("vb_bibs"), showcase = icon("shirt"),
                 theme = "warning"),
-      value_box("Avg attendance", textOutput("vb_att"), showcase = icon("user-check"))
+      value_box("Usual format", textOutput("vb_format"), showcase = icon("user-check"))
     ),
     layout_columns(
       col_widths = c(7, 5),
       card(card_header("Every result"), plotOutput("dash_results", height = 340)),
-      card(card_header("Attendance"), plotOutput("dash_attendance", height = 340))
+      card(card_header("Match format"), plotOutput("dash_format", height = 340))
     ),
-    card(card_header("Automatically discovered facts"),
+    card(card_header("Highlighted Stats"),
          uiOutput("dash_facts"))
   ),
 
@@ -56,10 +64,7 @@ ui <- page_navbar(
     layout_sidebar(
       sidebar = sidebar(
         selectizeInput("player", "Search a player", choices = NULL,
-                       options = list(placeholder = "Type a name...")),
-        hr(),
-        downloadButton("dl_player_stats", "Download player table (csv)",
-                       class = "btn-sm")
+                       options = list(placeholder = "Type a name..."))
       ),
       uiOutput("player_boxes"),
       layout_columns(
@@ -97,15 +102,14 @@ ui <- page_navbar(
       sidebar = sidebar(
         sliderInput("pair_min", "Minimum matches together", 2, 12, 5, step = 1),
         selectInput("combo_size", "Combination size",
-                    c("Pairs" = 2, "Trios" = 3, "Quartets" = 4, "Quintets" = 5)),
-        downloadButton("dl_pairs", "Download pairs (csv)", class = "btn-sm")
+                    c("Pairs" = 2, "Trios" = 3, "Quartets" = 4, "Quintets" = 5))
       ),
       layout_columns(
         col_widths = c(6, 6),
         card(card_header("Best partnerships"),
              plotOutput("pair_plot", height = 380)),
         card(card_header("Who plays with whom"),
-             plotOutput("cooc_plot", height = 380))
+             plotOutput("cooc_plot", height = 420))
       ),
       card(card_header("Combination records"), DTOutput("combo_table"))
     )
@@ -116,7 +120,9 @@ ui <- page_navbar(
     "Head-to-head", icon = icon("hand-fist"),
     layout_sidebar(
       sidebar = sidebar(
-        sliderInput("h2h_min", "Minimum meetings", 2, 12, 4, step = 1)
+        sliderInput("h2h_min", "Minimum meetings", 2, 12, 4, step = 1),
+        p(class = "text-muted small",
+          "Win rate = how often the row player's team beats the column player's team when they are on opposite sides.")
       ),
       card(card_header("Who beats whom"),
            plotOutput("h2h_plot", height = 520)),
@@ -132,11 +138,23 @@ ui <- page_navbar(
         sliderInput("net_min", "Minimum matches together (edges)", 1, 8, 3,
                     step = 1),
         p(class = "text-muted small",
-          "Node size = appearances; hover for details. Edge colour: green wins together, red loses together.")
+          "Each circle is a player (bigger = more appearances). Lines join players who share teams: thicker = more matches together, green = they win together, red = they lose together. Pinch to zoom, tap a circle for details."),
+        tags$details(
+          tags$summary("What do the measures mean?"),
+          tags$ul(class = "small text-muted",
+            tags$li(tags$b("Degree"), " (how many different teammates)"),
+            tags$li(tags$b("Strength"), " (total matches shared with teammates)"),
+            tags$li(tags$b("Betweenness"), " (a 'bridge' score: how often the player links otherwise separate groups)"),
+            tags$li(tags$b("Closeness"), " (how few steps it takes to reach everyone else)"),
+            tags$li(tags$b("PageRank"), " (overall influence: playing often with other well-connected players — Google's famous algorithm)"),
+            tags$li(tags$b("Community"), " (a cluster of players who tend to appear together)")
+          )
+        )
       ),
       card(card_header("Interactive network"),
-           plotlyOutput("net_plot", height = 560)),
-      card(card_header("Centrality measures"), DTOutput("net_table"))
+           plotlyOutput("net_plot", height = "65vh")),
+      card(card_header("Centrality measures (who matters in the network)"),
+           DTOutput("net_table"))
     )
   ),
 
@@ -144,70 +162,13 @@ ui <- page_navbar(
   nav_panel(
     "Trends", icon = icon("chart-line"),
     layout_columns(
-      col_widths = c(6, 6),
+      col_widths = c(6, 6, 12),
       card(card_header("Momentum (rolling win %)"),
            plotOutput("trend_rolling", height = 320)),
       card(card_header("Bib dominance"),
            plotOutput("trend_dominance", height = 320)),
       card(card_header("Cumulative appearances"),
-           plotOutput("trend_cumapps", height = 340)),
-      card(card_header("The Tuesday calendar"),
-           plotOutput("trend_calendar", height = 340))
-    )
-  ),
-
-  # -- Data & upload -----------------------------------------------------------
-  nav_panel(
-    "Data", icon = icon("database"),
-    navset_card_tab(
-      nav_panel(
-        "Upload team sheets",
-        p("Paste a new team sheet below (same messy format as ever), or upload a text file. ",
-          "Preview the parse, then commit it to the database."),
-        layout_columns(
-          col_widths = c(6, 6),
-          textAreaInput("upload_text", NULL, rows = 12,
-                        placeholder = "14/7/26\n\nBibs (5)\n- Faisal\n- Suki\n...\n\nNon-Bibs (4)\n- Lee\n..."),
-          fileInput("upload_file", "...or upload a .txt file", accept = ".txt")
-        ),
-        actionButton("preview_btn", "Preview parse", class = "btn-primary"),
-        actionButton("commit_btn", "Commit to database", class = "btn-warning"),
-        br(), br(),
-        uiOutput("upload_summary"),
-        DTOutput("upload_issues")
-      ),
-      nav_panel(
-        "Alias editor",
-        p("Aliases map messy raw names onto canonical players. Add a new alias and save; the database rebuilds automatically."),
-        layout_columns(
-          fill = FALSE, col_widths = c(3, 3, 2, 2, 2),
-          textInput("alias_new", "Alias (as written)"),
-          textInput("alias_canonical", "Canonical player"),
-          checkboxInput("alias_ambiguous", "Ambiguous?", FALSE),
-          textInput("alias_note", "Note"),
-          actionButton("alias_add", "Add & rebuild", class = "btn-primary",
-                       style = "margin-top: 32px;")
-        ),
-        DTOutput("alias_table")
-      ),
-      nav_panel(
-        "Parse issues",
-        p("Everything the parser and alias resolver want a human to check."),
-        DTOutput("issues_table")
-      ),
-      nav_panel(
-        "Downloads",
-        p("Download any table as csv, or regenerate the full PDF report."),
-        selectInput("dl_table_pick", "Table",
-                    c("matches", "teams", "players", "appearances", "events",
-                      "player_aliases", "parse_issues")),
-        downloadButton("dl_table", "Download table (csv)"),
-        hr(),
-        selectInput("dl_fig_pick", "Figure", character(0)),
-        downloadButton("dl_figure", "Download figure (png)"),
-        p(class = "text-muted small",
-          "Every figure from the analytics suite, rendered at print quality.")
-      )
+           plotOutput("trend_cumapps", height = 380))
     )
   ),
 
@@ -218,19 +179,35 @@ ui <- page_navbar(
       markdown("
 **Tuesday Night Football Analytics** ingests messy WhatsApp-style team
 sheets, standardises player names through an alias table, stores everything
-in a tidy relational database and serves statistics, network analysis and a
-PDF report.
+in a tidy relational database and serves statistics and network analysis
+through this dashboard.
+
+**This app is read-only.** It runs entirely in your browser, so nothing you
+click can change the shared record. New team sheets are added by the
+maintainer through the GitHub repository; the site rebuilds and updates
+automatically within a couple of minutes.
 
 Key assumptions:
 
 * the number in brackets after a team name is that team's **goals**;
-* dates are day/month/year (two-digit years = 20xx);
-* ambiguous first names are resolved by elimination within a match and
-  logged in the parse issues;
-* win percentages carry 95% Wilson confidence intervals; small samples are
-  flagged.
+* nights are categorised as 5-, 7- or 8-a-side from the number of players
+  listed;
+* ambiguous first names are resolved by elimination within a match;
+* win percentages carry 95% confidence intervals (a range the true rate
+  plausibly lies in) — small samples are flagged.
 
-Source: the project README and `docs/assumptions.md` in the repository.
+Glossary of network measures:
+
+* **Degree** — how many different teammates a player has had.
+* **Strength** — total matches shared with all teammates combined.
+* **Betweenness** — how often a player is the 'bridge' connecting groups
+  that otherwise wouldn't mix.
+* **Closeness** — how few steps it takes to reach every other player
+  through shared matches.
+* **PageRank** — overall influence: playing often alongside other
+  well-connected players (the algorithm Google made famous).
+* **Community** — a cluster of players the algorithm groups together
+  because they so often share a team.
 ")
     )
   )
@@ -243,7 +220,6 @@ Source: the project README and `docs/assumptions.md` in the repository.
 server <- function(input, output, session) {
 
   db <- reactiveVal(initial_db)
-  upload_preview <- reactiveVal(NULL)
 
   # keep player pickers in sync with the database
   observe({
@@ -254,7 +230,6 @@ server <- function(input, output, session) {
                          selected = isolate(input$cmp_a %||% nms[1]))
     updateSelectizeInput(session, "cmp_b", choices = nms,
                          selected = isolate(input$cmp_b %||% nms[2]))
-    updateSelectInput(session, "dl_fig_pick", choices = names(all_figures(db())))
   })
 
   # -- dashboard ---------------------------------------------------------------
@@ -264,9 +239,12 @@ server <- function(input, output, session) {
   output$vb_bibs <- renderText({
     tr <- team_record(db()); fmt_pct(tr$win_pct[tr$team == "Bibs"])
   })
-  output$vb_att <- renderText(sprintf("%.1f", match_summary(db())$mean_attendance))
+  output$vb_format <- renderText({
+    f <- match_format(db()$matches$attendance)
+    names(sort(table(f), decreasing = TRUE))[1]
+  })
   output$dash_results <- renderPlot(plot_results_timeline(db()))
-  output$dash_attendance <- renderPlot(plot_attendance_over_time(db()))
+  output$dash_format <- renderPlot(plot_format_over_time(db()))
   output$dash_facts <- renderUI({
     tags$ul(lapply(generate_discoveries(db()), tags$li))
   })
@@ -274,9 +252,11 @@ server <- function(input, output, session) {
   # -- matches ----------------------------------------------------------------
   output$match_table <- renderDT({
     match_results_table(db()) |>
-      mutate(date = format(date, "%d %b %Y")) |>
+      mutate(format = as.character(match_format(attendance)),
+             date = format(date, "%d %b %Y")) |>
+      select(date, score, winner, margin, format, note) |>
       datatable(selection = "single", rownames = FALSE,
-                options = list(pageLength = 25, dom = "ft"))
+                options = list(pageLength = 25, dom = "ft", scrollX = TRUE))
   })
   output$match_detail <- renderUI({
     idx <- input$match_table_rows_selected
@@ -290,6 +270,7 @@ server <- function(input, output, session) {
     tagList(
       h4(sprintf("%s — Bibs %d : %d Non-Bibs", format(m$date, "%d %B %Y"),
                  m$bibs_goals, m$nonbibs_goals)),
+      p(class = "text-muted", as.character(match_format(m$attendance))),
       if (!is.na(m$note)) p(tags$em(paste("Note:", m$note))),
       layout_columns(
         col_widths = c(6, 6),
@@ -353,14 +334,9 @@ server <- function(input, output, session) {
                 `Consistency %` = round(100 * attendance_consistency),
                 First = format(first_appearance, "%d %b %y"),
                 Latest = format(last_appearance, "%d %b %y")) |>
-      datatable(rownames = FALSE, extensions = "Buttons",
-                options = list(pageLength = 35, dom = "Bft", scrollX = TRUE,
-                               buttons = c("copy", "csv")))
+      datatable(rownames = FALSE,
+                options = list(pageLength = 35, dom = "ft", scrollX = TRUE))
   })
-  output$dl_player_stats <- downloadHandler(
-    filename = function() "tnf_player_stats.csv",
-    content = function(file) readr::write_csv(player_stats(db()), file)
-  )
 
   # -- compare ----------------------------------------------------------------
   output$cmp_table <- renderTable({
@@ -430,12 +406,10 @@ server <- function(input, output, session) {
     }
     d |>
       mutate(win_pct = round(100 * win_pct)) |>
-      datatable(rownames = FALSE, options = list(pageLength = 15, dom = "ft"))
+      rename(`Win %` = win_pct) |>
+      datatable(rownames = FALSE,
+                options = list(pageLength = 15, dom = "ft", scrollX = TRUE))
   })
-  output$dl_pairs <- downloadHandler(
-    filename = function() "tnf_pairs.csv",
-    content = function(file) readr::write_csv(pair_stats(db()), file)
-  )
 
   # -- head-to-head -------------------------------------------------------------
   output$h2h_plot <- renderPlot(plot_h2h_heatmap(db(), min_meetings = input$h2h_min))
@@ -443,133 +417,36 @@ server <- function(input, output, session) {
     head_to_head(db(), input$h2h_min) |>
       mutate(win_pct = round(100 * win_pct),
              ci = paste0(round(100 * lower), "-", round(100 * upper), "%")) |>
-      select(player, opponent, meetings, wins, draws, losses, win_pct, ci,
-             goal_diff) |>
-      datatable(rownames = FALSE, options = list(pageLength = 15, dom = "ft"))
+      transmute(Player = player, Opponent = opponent, Meetings = meetings,
+                W = wins, D = draws, L = losses, `Win %` = win_pct,
+                `95% CI (plausible range)` = ci,
+                `GD (goal difference)` = goal_diff) |>
+      datatable(rownames = FALSE,
+                options = list(pageLength = 15, dom = "ft", scrollX = TRUE))
   })
 
   # -- network ------------------------------------------------------------------
   output$net_plot <- renderPlotly(plotly_network(db(), input$net_min))
   output$net_table <- renderDT({
     network_metrics(db(), min_together = input$net_min) |>
-      mutate(across(c(betweenness, closeness, pagerank, eigen, win_pct),
-                    ~ round(.x, 3))) |>
-      datatable(rownames = FALSE, options = list(pageLength = 15, dom = "ft",
-                                                 scrollX = TRUE))
+      transmute(
+        Player = name,
+        Apps = appearances,
+        `Degree (teammates)` = degree,
+        `Strength (shared matches)` = strength,
+        `Betweenness (bridge score)` = round(betweenness, 1),
+        `Closeness (steps to everyone)` = round(closeness, 3),
+        `PageRank (influence)` = round(pagerank, 4),
+        `Community (cluster)` = community
+      ) |>
+      datatable(rownames = FALSE,
+                options = list(pageLength = 15, dom = "ft", scrollX = TRUE))
   })
 
   # -- trends -------------------------------------------------------------------
   output$trend_rolling <- renderPlot(plot_rolling_winpct(db()))
   output$trend_dominance <- renderPlot(plot_bib_dominance(db()))
   output$trend_cumapps <- renderPlot(plot_cumulative_appearances(db()))
-  output$trend_calendar <- renderPlot(plot_calendar_heatmap(db()))
-
-  # -- data & upload ------------------------------------------------------------
-  upload_text <- reactive({
-    if (isTruthy(input$upload_file)) {
-      readr::read_file(input$upload_file$datapath)
-    } else {
-      input$upload_text
-    }
-  })
-
-  observeEvent(input$preview_btn, {
-    txt <- upload_text()
-    if (!isTruthy(txt) || !nzchar(trimws(txt))) {
-      showNotification("Nothing to parse - paste a team sheet first.",
-                       type = "warning")
-      return()
-    }
-    parsed <- parse_team_sheets(txt)
-    aliases <- load_aliases(ALIAS_PATH)
-    preview_db <- build_database_from_parsed(parsed, aliases)
-    upload_preview(list(parsed = parsed, db = preview_db, text = txt))
-  })
-
-  output$upload_summary <- renderUI({
-    pv <- upload_preview()
-    req(pv)
-    m <- pv$db$matches
-    tagList(
-      h5("Parse preview"),
-      p(sprintf("%d match(es), %d appearance(s), %d issue(s).",
-                nrow(m), nrow(pv$db$appearances), nrow(pv$db$parse_issues))),
-      if (nrow(m) > 0) tableOutput("upload_matches")
-    )
-  })
-  output$upload_matches <- renderTable({
-    pv <- upload_preview(); req(pv)
-    pv$db$matches |>
-      transmute(date = format(date, "%d %b %Y"),
-                score = paste0(bibs_goals, "-", nonbibs_goals),
-                winner = result, attendance)
-  })
-  output$upload_issues <- renderDT({
-    pv <- upload_preview(); req(pv)
-    pv$db$parse_issues |>
-      datatable(rownames = FALSE, options = list(pageLength = 10, dom = "t"))
-  })
-
-  observeEvent(input$commit_btn, {
-    pv <- upload_preview()
-    if (is.null(pv)) {
-      showNotification("Preview the parse before committing.", type = "warning")
-      return()
-    }
-    existing <- readr::read_file(RAW_PATH)
-    readr::write_file(paste(existing, pv$text, sep = "\n\n"), RAW_PATH)
-    new_db <- build_database(RAW_PATH, ALIAS_PATH)
-    save_database(new_db, "data")
-    db(new_db)
-    upload_preview(NULL)
-    updateTextAreaInput(session, "upload_text", value = "")
-    showNotification("Team sheet committed - all statistics updated.",
-                     type = "message")
-  })
-
-  # -- alias editor -------------------------------------------------------------
-  output$alias_table <- renderDT({
-    db()$player_aliases |>
-      datatable(rownames = FALSE, options = list(pageLength = 15, dom = "ft"))
-  })
-  observeEvent(input$alias_add, {
-    if (!isTruthy(input$alias_new) || !isTruthy(input$alias_canonical)) {
-      showNotification("Alias and canonical name are both required.",
-                       type = "warning")
-      return()
-    }
-    aliases <- readr::read_csv(ALIAS_PATH, show_col_types = FALSE) |>
-      bind_rows(tibble(alias = input$alias_new,
-                       canonical = input$alias_canonical,
-                       ambiguous = isTRUE(input$alias_ambiguous),
-                       note = ifelse(nzchar(input$alias_note),
-                                     input$alias_note, NA_character_)))
-    readr::write_csv(aliases, ALIAS_PATH, na = "")
-    new_db <- build_database(RAW_PATH, ALIAS_PATH)
-    save_database(new_db, "data")
-    db(new_db)
-    showNotification("Alias added and database rebuilt.", type = "message")
-  })
-
-  # -- issues -------------------------------------------------------------------
-  output$issues_table <- renderDT({
-    db()$parse_issues |>
-      datatable(rownames = FALSE, options = list(pageLength = 20, dom = "ft"))
-  })
-
-  # -- downloads ----------------------------------------------------------------
-  output$dl_table <- downloadHandler(
-    filename = function() paste0("tnf_", input$dl_table_pick, ".csv"),
-    content = function(file) readr::write_csv(db()[[input$dl_table_pick]], file)
-  )
-  output$dl_figure <- downloadHandler(
-    filename = function() paste0("tnf_", input$dl_fig_pick, ".png"),
-    content = function(file) {
-      figs <- all_figures(db())
-      ggsave(file, figs[[input$dl_fig_pick]], width = 10, height = 7,
-             dpi = 300, bg = "white")
-    }
-  )
 }
 
 shinyApp(ui, server)

@@ -91,3 +91,21 @@ current_run <- function(x) {
 fmt_pct <- function(p, digits = 0) {
   ifelse(is.na(p), "-", paste0(formatC(100 * p, format = "f", digits = digits), "%"))
 }
+
+#' Categorise a match night's format from its attendance
+#'
+#' Tuesday nights are only ever 5-, 7- or 8-a-side, so the players-per-team
+#' count (attendance / 2) is snapped to the nearest of those. Odd numbers
+#' round down (15 players = 7-a-side with a spare).
+#'
+#' @param attendance number of players on the night
+#' @return factor like "7-a-side" with levels 5 < 7 < 8
+match_format <- function(attendance) {
+  sides <- c(5, 7, 8)
+  side <- vapply(attendance, function(a) {
+    if (is.na(a)) return(NA_real_)
+    sides[which.min(abs(sides - a / 2))]
+  }, numeric(1))
+  factor(paste0(side, "-a-side"),
+         levels = paste0(sides, "-a-side"))
+}
