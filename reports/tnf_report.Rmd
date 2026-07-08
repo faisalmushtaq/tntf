@@ -1,0 +1,424 @@
+---
+title: "Tuesday Night Football"
+subtitle: "The Annual Analytics Review"
+author: "TNF Analytics Platform"
+date: "`r format(Sys.Date(), '%d %B %Y')`"
+output:
+  pdf_document:
+    toc: true
+    toc_depth: 2
+    number_sections: true
+    latex_engine: pdflatex
+    fig_caption: false
+header-includes:
+  - \usepackage{tcolorbox}
+  - \usepackage{booktabs}
+  - \usepackage{float}
+  - \newtcolorbox{insight}{colback=orange!8,colframe=orange!70!black,boxrule=0.8pt,arc=2mm,left=2mm,right=2mm,top=1mm,bottom=1mm}
+  - \floatplacement{figure}{H}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE,
+                      fig.width = 9, fig.height = 5.6, dpi = 150,
+                      fig.pos = "H", out.width = "100%")
+suppressPackageStartupMessages({
+  library(tidyverse); library(tidygraph); library(ggraph); library(kableExtra)
+})
+root <- normalizePath("..")
+for (f in list.files(file.path(root, "R"), full.names = TRUE)) source(f)
+db <- build_database(file.path(root, "data-raw/team_sheets_raw.txt"),
+                     file.path(root, "data-raw/player_aliases.csv"))
+ms <- match_summary(db)
+tr <- team_record(db)
+ps <- player_stats(db) |> filter(!is_guest)
+
+insight <- function(...) {
+  txt <- paste0(...)
+  txt <- gsub("%", "\\\\%", txt)   # % starts a comment in raw LaTeX
+  txt <- gsub("&", "\\\\&", txt)
+  cat("```{=latex}\n\\begin{insight}\n\\textbf{Insight.} ", txt,
+      "\n\\end{insight}\n```\n")
+}
+tk <- function(d, ...) {
+  kbl(d, booktabs = TRUE, linesep = "", ...) |>
+    kable_styling(latex_options = c("striped", "HOLD_position"),
+                  font_size = 9)
+}
+```
+
+# Executive Summary
+
+Tuesday Night Football has now completed **`r ms$total_matches` matches**
+between `r format(ms$first_match, "%d %B %Y")` and
+`r format(ms$last_match, "%d %B %Y")`, with **`r ms$total_players` different
+players** pulling on (or refusing to pull on) a bib. Between them they have
+scored **`r ms$total_goals` goals** — an average of
+`r round(ms$goals_per_match, 1)` per night — in front of an average
+"crowd" of `r round(ms$mean_attendance, 1)` participating players.
+
+```{r exec-facts, results='asis'}
+facts <- generate_discoveries(db)
+cat(paste0("- ", facts), sep = "\n")
+```
+
+# Season Overview
+
+```{r results-timeline}
+plot_results_timeline(db)
+```
+
+*Each bar is one Tuesday. Bars pointing up are Bibs wins, bars pointing down
+are Non-Bibs wins, and the bar's height shows how comfortable the win was.
+Grey dots on the line are draws.*
+
+```{r alluvial, fig.height=5}
+plot_results_alluvial(db)
+```
+
+*This flow diagram takes each side's matches (left) and shows how they ended
+up (right). The thicker the ribbon, the more matches took that path.*
+
+```{r season-callout, results='asis'}
+bibs <- tr[tr$team == "Bibs", ]
+insight("Bibs lead the all-time series: ", bibs$wins, " wins to ",
+        tr$wins[tr$team == "Non-Bibs"], " with ", bibs$draws,
+        " draws. Their ", fmt_pct(bibs$win_pct),
+        " win rate carries a 95% confidence interval of ",
+        fmt_pct(bibs$lower), "--", fmt_pct(bibs$upper),
+        ", so the jury is technically still out.")
+```
+
+# Match Statistics
+
+## The record so far
+
+```{r team-record}
+tr |>
+  transmute(Team = team, P = played, W = wins, D = draws, L = losses,
+            GF = goals_for, GA = goals_against, GD = goal_diff,
+            `Win %` = fmt_pct(win_pct),
+            `95% CI` = paste0(fmt_pct(lower), "--", fmt_pct(upper))) |>
+  tk(caption = "All-time record by side")
+```
+
+```{r team-streaks}
+team_streaks(db) |>
+  transmute(Team = team, `Longest win streak` = longest_win_streak,
+            `Longest unbeaten` = longest_unbeaten,
+            `Longest losing run` = longest_losing_streak,
+            `Current run` = current) |>
+  tk(caption = "Streaks by side")
+```
+
+## Biggest victories
+
+```{r biggest}
+biggest_victories(db) |>
+  transmute(Date = format(date, "%d %b %Y"), Score = score, Winner = winner,
+            Margin = margin, Attendance = attendance) |>
+  tk(caption = "Most emphatic wins (score shown as Bibs--Non-Bibs)")
+```
+
+## Scoring
+
+```{r goals-violin, fig.height=5}
+plot_goals_violin(db)
+```
+
+*Each dot is one team's goal tally in one match. The coloured shapes show
+where tallies bunch up: both sides usually score between three and nine, with
+the occasional night of total madness.*
+
+```{r goals-ridge, fig.height=6}
+plot_goals_ridgeline(db)
+```
+
+*Each ridge is a month. The further right the bump, the more goals flew in
+that month — the spike on the far right is the legendary 18--19 night of
+25 June.*
+
+## Attendance
+
+```{r attendance}
+plot_attendance_over_time(db)
+```
+
+*Each dot is the number of players who turned up that Tuesday. The dashed
+line is the season average, so dots above it were busy nights.*
+
+```{r calendar, fig.height=6.5}
+plot_calendar_heatmap(db)
+```
+
+*A calendar view of the season: each tile is a match night, labelled with the
+date and the number of players. Darker orange means a fuller pitch. The gap
+in late February and March is plain to see.*
+
+# Player Statistics
+
+## The headline table
+
+```{r player-table}
+ps |>
+  arrange(desc(appearances)) |>
+  transmute(Player = player_name, Apps = appearances, W = wins, D = draws,
+            L = losses, `Win %` = fmt_pct(win_pct), GF = goals_for,
+            GA = goals_against, GD = goal_diff,
+            Streak = current_streak,
+            `Small?` = ifelse(small_sample, "*", "")) |>
+  tk(caption = "All players: appearances, results and goals while on the pitch. * = fewer than 8 appearances, treat with caution") |>
+  column_spec(1, bold = TRUE)
+```
+
+```{r apps-lollipop, fig.height=7}
+plot_appearances_lollipop(db)
+```
+
+*The club's most devoted attendees. Each stick shows the total number of
+Tuesdays a player has turned out for.*
+
+## Win rates (and how sure we can be)
+
+```{r winpct, fig.height=7}
+plot_win_pct_ci(db)
+```
+
+*The dot is each player's win rate; bigger dots mean more matches. The
+whiskers show the range where the "true" win rate plausibly lives — the wider
+the whisker, the less the sample tells us. Almost every whisker crosses the
+50% line, which is football's way of saying it is nicely balanced.*
+
+```{r goal-diff, fig.height=6.5}
+plot_goal_diff(db)
+```
+
+*Green bars: the team outscores opponents when this player plays. Red bars:
+the opposite. This blends personal quality, teammates and pure luck — which
+is exactly why it makes for good arguments.*
+
+```{r streaks-fig, fig.height=5.5}
+plot_streaks(db)
+```
+
+*The longest unbroken run of wins each player has ever been part of.*
+
+```{r player-callout, results='asis'}
+best <- ps |> filter(appearances >= 8) |> slice_max(win_pct, n = 1, with_ties = FALSE)
+loyal <- ps |> filter(appearances >= 8) |> slice_max(attendance_consistency, n = 1, with_ties = FALSE)
+insight(best$player_name, " tops the win table among regulars at ",
+        fmt_pct(best$win_pct), ", while ", loyal$player_name,
+        " is the metronome of the group, present for ",
+        fmt_pct(loyal$attendance_consistency),
+        " of all matches since debuting.")
+```
+
+# Partnerships
+
+```{r partnerships-fig, fig.height=6}
+plot_partnerships(db)
+```
+
+*The best-performing duos among pairs who have shared a team at least five
+times. The label shows wins out of matches together; whiskers again show the
+uncertainty.*
+
+```{r pairs-table}
+pair_stats(db, 8) |>
+  arrange(desc(together)) |>
+  head(12) |>
+  transmute(Pair = paste(player_a, "+", player_b), Together = together,
+            W = wins, D = draws, L = losses, `Win %` = fmt_pct(win_pct),
+            GD = goal_diff) |>
+  tk(caption = "Most frequent partnerships (8+ matches together)")
+```
+
+```{r co-occ, fig.height=8.5, fig.width=9.5}
+plot_co_occurrence(db)
+```
+
+*How often every pair of regulars has been on the same team. Deep orange
+squares are near-inseparable teammates; blank squares are pairs the bib
+randomiser has kept apart.*
+
+# Team Chemistry
+
+```{r combos-trio}
+combo_stats(db, 3, 4) |>
+  head(10) |>
+  transmute(Trio = combo, Together = together, W = wins, D = draws, L = losses,
+            `Win %` = fmt_pct(win_pct)) |>
+  tk(caption = "Best trios (4+ matches together)")
+```
+
+```{r combos-quartet}
+combo_stats(db, 4, 3) |>
+  head(8) |>
+  transmute(Quartet = combo, Together = together, W = wins,
+            `Win %` = fmt_pct(win_pct)) |>
+  tk(caption = "Best quartets (3+ matches together)")
+```
+
+```{r combos-quintet}
+combo_stats(db, 5, 3) |>
+  head(6) |>
+  transmute(Quintet = combo, Together = together, W = wins,
+            `Win %` = fmt_pct(win_pct)) |>
+  tk(caption = "Best quintets (3+ matches together)")
+```
+
+```{r stability, results='asis'}
+stab <- lineup_stability(db)
+insight("Squad turnover is real: on average only ",
+        fmt_pct(mean(stab$jaccard)),
+        " of one Tuesday's squad overlaps with the next (Jaccard similarity), ",
+        "so the bib randomiser gets fresh material every week.")
+```
+
+## Who beats whom
+
+```{r h2h-fig, fig.height=8, fig.width=9.5}
+plot_h2h_heatmap(db)
+```
+
+*Read along a row: the colour shows how often that player's team beats the
+column player's team when they are on opposite sides. Orange = dominance,
+blue = suffering. Only match-ups with four or more meetings are shown.*
+
+```{r h2h-sentences, results='asis'}
+cat(paste0("- ", h2h_sentences(db, min_meetings = 6, top = 8)), sep = "\n")
+```
+
+# Network Analysis
+
+```{r network, fig.height=8, fig.width=10.5}
+plot_network(db)
+```
+
+*Every line connects two players who have shared a team at least three times.
+Thick lines are long-running partnerships; green lines win together, red
+lines lose together. The node colours are "communities" — clusters of players
+the algorithm thinks belong to the same social orbit.*
+
+```{r centrality-fig, fig.height=5.5}
+plot_centrality(db)
+```
+
+*PageRank — the algorithm Google made famous — applied to Tuesday night:
+players score highly for repeatedly sharing teams with other well-connected
+players.*
+
+```{r centrality-table}
+network_metrics(db) |>
+  head(12) |>
+  transmute(Player = name, Degree = degree, Strength = strength,
+            Betweenness = round(betweenness, 1),
+            Closeness = round(closeness, 3),
+            PageRank = round(pagerank, 4)) |>
+  tk(caption = "Network centrality (top 12 by PageRank)")
+```
+
+# Time Trends
+
+```{r rolling}
+plot_rolling_winpct(db)
+```
+
+*Form over time: each line shows the share of the last five matches each side
+has won. When the orange line is on top, Bibs are the team to be on.*
+
+```{r dominance}
+plot_bib_dominance(db)
+```
+
+*The season-long tug of war: Bibs' share of all available points so far.
+Above the dashed line, Bibs lead the season; below it, Non-Bibs do.*
+
+```{r cumulative, fig.height=6.5}
+plot_cumulative_appearances(db)
+```
+
+*Every player's appearance count as it grows through the season. The steepest
+lines belong to the ever-presents.*
+
+```{r bump, fig.height=6}
+plot_monthly_bump(db)
+```
+
+*Month by month, who turned up most? Rank 1 means the most appearances that
+month among the club's eight busiest players.*
+
+```{r timeline, fig.height=7.5}
+plot_player_timeline(db)
+```
+
+*The whole season in one picture: each row is a player (newest at the top),
+each dot an appearance, coloured by how the night ended.*
+
+```{r retention, results='asis'}
+ret <- player_retention(db)
+newc <- newcomer_rate(db)
+insight("Month-to-month retention averages ", fmt_pct(mean(ret$retention)),
+        ": most of the squad comes back for more. Meanwhile ",
+        sum(newc$debutants[-1]),
+        " new players debuted after the opening month, keeping the pool fresh.")
+```
+
+# Interesting Facts
+
+```{r facts, results='asis'}
+cat(paste0(seq_along(facts), ". ", facts), sep = "\n")
+```
+
+# Appendix
+
+## Full results
+
+```{r all-results}
+match_results_table(db) |>
+  transmute(Date = format(date, "%d %b %Y"), Score = score, Winner = winner,
+            Attendance = attendance, Note = coalesce(note, "")) |>
+  tk(caption = "Every match (score shown as Bibs--Non-Bibs)")
+```
+
+## Notable events
+
+```{r events}
+db$events |>
+  left_join(db$players, by = "player_id") |>
+  transmute(Date = format(date, "%d %b %Y"), Event = event_type,
+            Player = coalesce(player_name, "—"), Detail = detail) |>
+  tk(caption = "Recorded events")
+```
+
+## Player alias table
+
+```{r aliases}
+db$player_aliases |>
+  transmute(Alias = alias, `Canonical name` = canonical,
+            `Ambiguous?` = ifelse(ambiguous, "yes", ""),
+            Note = coalesce(note, "")) |>
+  tk(caption = "Alias lookup used to standardise names")
+```
+
+## Data notes and assumptions
+
+- The number in brackets after each team name is that team's **goals**, not
+  its player count (attendances and squad sizes are derived from the listed
+  names).
+- Dates are day/month/year; two-digit years are assumed to be 20xx.
+- Ambiguous first names (e.g. "Tom" on 27 January) are resolved by
+  elimination within the match; every automatic decision is logged in
+  `data/parse_issues.csv`.
+- "Rik" is treated as a typo for Riz Khan; "Comical A-Lee" as a nickname for
+  Lee; "Lee's mate" as an unnamed guest.
+- Win percentages come with 95% Wilson score intervals. With `r ms$total_matches`
+  matches, almost all player-level differences are within the noise — which
+  has never stopped a good argument.
+
+```{r issues}
+db$parse_issues |>
+  transmute(Date = format(date, "%d %b %Y"), Severity = severity,
+            Message = message) |>
+  tk(caption = "Parser and alias-resolution log")
+```

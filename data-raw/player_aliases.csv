@@ -1,0 +1,27 @@
+alias,canonical,ambiguous,note
+Craig,Craig Wilson,FALSE,Only one Craig in the squad
+Craig Wilson,Craig Wilson,FALSE,
+Eddy,Eddy Richmond,FALSE,
+Umar,Umar Zaffar,FALSE,
+Shergal,Shergal Rodaina,FALSE,
+Oli,Oli Scott,FALSE,
+Ismael,Ismael Nazar,FALSE,First-name shorthand
+Ismaeel,Ismael Nazar,FALSE,Spelling variant
+Matt,Matthew Eastwood,FALSE,
+Matthew,Matthew Eastwood,FALSE,
+Matt Eastwood,Matthew Eastwood,FALSE,
+James,James Roberts,FALSE,Only one James in the squad
+Ian,Ian Anderson,FALSE,
+Darren,Darren Ellis,FALSE,
+Dec,Declan,FALSE,
+Declan,Declan,FALSE,Surname unknown
+Haris,Haris Farooq,FALSE,
+Harris,Haris Farooq,FALSE,Spelling variant
+Umair,Umair Noor,FALSE,
+Haroon,Haroon Hanif,FALSE,
+Riz,Riz Khan,FALSE,
+Rik,Riz Khan,FALSE,Assumed typo for Riz
+Comical A-Lee,Lee,FALSE,Nickname used on 24/03/26
+Lee's mate,Lee's Mate,FALSE,Unnamed guest brought by Lee
+Tom,Tom Clapham,TRUE,Ambiguous first name - two Toms in the squad
+Tom,Tom Exon,TRUE,Ambiguous first name - two Toms in the squad
