@@ -1,0 +1,20 @@
+Package: tntf
+Title: Tuesday Night Football Analytics Platform
+Version: 1.0.0
+Authors@R: person("TNF", "Analytics", role = c("aut", "cre"),
+                  email = "faisalmushtaq@gmail.com")
+Description: Ingests messy Tuesday Night Football team sheets, standardises
+    player names through an alias lookup, stores results in a tidy relational
+    model and serves match, player, partnership, head-to-head, network and
+    time-series analytics through a Shiny dashboard and an optional PDF
+    report.
+License: MIT
+Encoding: UTF-8
+Depends: R (>= 4.3)
+Imports:
+    dplyr, tidyr, tibble, purrr, readr, stringr, forcats, ggplot2,
+    lubridate, scales, igraph, tidygraph, ggraph, ggrepel, ggridges,
+    ggalluvial, viridis, shiny, bslib, DT, plotly, rmarkdown, knitr,
+    kableExtra
+Suggests:
+    testthat, ggprism, gt, reactable, janitor, patchwork

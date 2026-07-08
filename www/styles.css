@@ -1,0 +1,11 @@
+/* Small polish on top of the bslib flatly theme */
+
+.value-box-title { font-size: 0.95rem; letter-spacing: 0.02em; }
+.value-box-value { font-weight: 700; }
+
+.card-header { font-weight: 600; }
+
+.navbar-brand { letter-spacing: 0.03em; }
+
+/* keep DT tables comfortable on small screens */
+table.dataTable { font-size: 0.9rem; }

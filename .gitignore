@@ -1,0 +1,8 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+*.log
+reports/*.tex
+reports/tnf_report_files/
+rsconnect/

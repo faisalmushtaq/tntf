@@ -1,0 +1,301 @@
+match_id,date,team,player_id,raw_name,resolution
+M20251230,2025-12-30,Bibs,faisal,Faisal,new-player
+M20251230,2025-12-30,Bibs,craig_wilson,Craig,alias
+M20251230,2025-12-30,Bibs,zahid_iqbal,Zahid Iqbal,new-player
+M20251230,2025-12-30,Bibs,tom_clapham,Tom Clapham,new-player
+M20251230,2025-12-30,Bibs,tom_exon,Tom Exon,new-player
+M20251230,2025-12-30,Bibs,eddy_richmond,Eddy Richmond,new-player
+M20251230,2025-12-30,Bibs,tariq,Tariq,new-player
+M20251230,2025-12-30,Non-Bibs,umar_zaffar,Umar Zaffar,new-player
+M20251230,2025-12-30,Non-Bibs,shergal_rodaina,Shergal Rodaina,new-player
+M20251230,2025-12-30,Non-Bibs,suki,Suki,new-player
+M20251230,2025-12-30,Non-Bibs,oli_scott,Oli Scott,new-player
+M20251230,2025-12-30,Non-Bibs,ismael_nazar,Ismael Nazar,new-player
+M20251230,2025-12-30,Non-Bibs,matthew_eastwood,Matthew Eastwood,new-player
+M20251230,2025-12-30,Non-Bibs,lee,Lee,new-player
+M20260106,2026-01-06,Bibs,craig_wilson,Craig Wilson,exact
+M20260106,2026-01-06,Bibs,vadim,Vadim,new-player
+M20260106,2026-01-06,Bibs,shergal_rodaina,Shergal Rodaina,new-player
+M20260106,2026-01-06,Bibs,suki,Suki,new-player
+M20260106,2026-01-06,Bibs,faisal,Faisal,new-player
+M20260106,2026-01-06,Bibs,tom_clapham,Tom Clapham,new-player
+M20260106,2026-01-06,Bibs,ismael_nazar,Ismael Nazar,new-player
+M20260106,2026-01-06,Non-Bibs,james_roberts,James,alias
+M20260106,2026-01-06,Non-Bibs,lee,Lee,new-player
+M20260106,2026-01-06,Non-Bibs,ian_anderson,Ian,alias
+M20260106,2026-01-06,Non-Bibs,matthew_eastwood,Matthew Eastwood,new-player
+M20260106,2026-01-06,Non-Bibs,oli_scott,Oli Scott,new-player
+M20260106,2026-01-06,Non-Bibs,darren_ellis,Darren Ellis,new-player
+M20260106,2026-01-06,Non-Bibs,lee_s_mate,Lee's mate,exact
+M20260113,2026-01-13,Bibs,faisal,Faisal,new-player
+M20260113,2026-01-13,Bibs,shergal_rodaina,Shergal Rodaina,new-player
+M20260113,2026-01-13,Bibs,declan,Dec,alias
+M20260113,2026-01-13,Bibs,sajjad,Sajjad,new-player
+M20260113,2026-01-13,Bibs,ian_anderson,Ian Anderson,new-player
+M20260113,2026-01-13,Bibs,tom_clapham,Tom Clapham,new-player
+M20260113,2026-01-13,Bibs,matthew_eastwood,Matthew Eastwood,new-player
+M20260113,2026-01-13,Non-Bibs,umar_zaffar,Umar Zaffar,new-player
+M20260113,2026-01-13,Non-Bibs,tom_exon,Tom Exon,new-player
+M20260113,2026-01-13,Non-Bibs,suki,Suki,new-player
+M20260113,2026-01-13,Non-Bibs,darren_ellis,Darren Ellis,new-player
+M20260113,2026-01-13,Non-Bibs,ismael_nazar,Ismael Nazar,new-player
+M20260113,2026-01-13,Non-Bibs,lee,Lee,new-player
+M20260113,2026-01-13,Non-Bibs,haris_farooq,Haris Farooq,new-player
+M20260120,2026-01-20,Bibs,darren_ellis,Darren Ellis,new-player
+M20260120,2026-01-20,Bibs,faisal,Faisal,new-player
+M20260120,2026-01-20,Bibs,haris_farooq,Haris Farooq,new-player
+M20260120,2026-01-20,Bibs,tom_exon,Tom Exon,new-player
+M20260120,2026-01-20,Bibs,sajjad,Sajjad,new-player
+M20260120,2026-01-20,Bibs,tom_clapham,Tom Clapham,new-player
+M20260120,2026-01-20,Bibs,umair_noor,Umair,alias
+M20260120,2026-01-20,Non-Bibs,suki,Suki,new-player
+M20260120,2026-01-20,Non-Bibs,ismael_nazar,Ismael Nazar,new-player
+M20260120,2026-01-20,Non-Bibs,lee,Lee,new-player
+M20260120,2026-01-20,Non-Bibs,kyle,Kyle,new-player
+M20260120,2026-01-20,Non-Bibs,matthew_eastwood,Matthew Eastwood,new-player
+M20260120,2026-01-20,Non-Bibs,james_roberts,James Roberts,new-player
+M20260120,2026-01-20,Non-Bibs,vadim,Vadim,new-player
+M20260127,2026-01-27,Bibs,haris_farooq,Haris,alias
+M20260127,2026-01-27,Bibs,matthew_eastwood,Matt,alias
+M20260127,2026-01-27,Bibs,lee,Lee,new-player
+M20260127,2026-01-27,Bibs,ismael_nazar,Ismaeel,alias
+M20260127,2026-01-27,Bibs,sajjad,Sajjad,new-player
+M20260127,2026-01-27,Bibs,umair_noor,Umair,alias
+M20260127,2026-01-27,Bibs,haroon_hanif,Haroon,alias
+M20260127,2026-01-27,Non-Bibs,umar_zaffar,Umar,alias
+M20260127,2026-01-27,Non-Bibs,shergal_rodaina,Shergal,alias
+M20260127,2026-01-27,Non-Bibs,tom_clapham,Tom,ambiguous-auto
+M20260127,2026-01-27,Non-Bibs,tom_exon,Tom,ambiguous-auto
+M20260127,2026-01-27,Non-Bibs,declan,Declan,exact
+M20260127,2026-01-27,Non-Bibs,james_roberts,James,alias
+M20260127,2026-01-27,Non-Bibs,darren_ellis,Darren,alias
+M20260202,2026-02-02,Bibs,faisal,Faisal,new-player
+M20260202,2026-02-02,Bibs,umar_zaffar,Umar,alias
+M20260202,2026-02-02,Bibs,vadim,Vadim,new-player
+M20260202,2026-02-02,Bibs,darren_ellis,Darren Ellis,new-player
+M20260202,2026-02-02,Bibs,shergal_rodaina,Shergal Rodaina,new-player
+M20260202,2026-02-02,Bibs,matthew_eastwood,Matthew Eastwood,new-player
+M20260202,2026-02-02,Bibs,shakeel,Shakeel,new-player
+M20260202,2026-02-02,Non-Bibs,sajjad,Sajjad,new-player
+M20260202,2026-02-02,Non-Bibs,james_roberts,James Roberts,new-player
+M20260202,2026-02-02,Non-Bibs,tom_exon,Tom Exon,new-player
+M20260202,2026-02-02,Non-Bibs,haris_farooq,Haris Farooq,new-player
+M20260202,2026-02-02,Non-Bibs,tom_clapham,Tom Clapham,new-player
+M20260202,2026-02-02,Non-Bibs,umair_noor,Umair,alias
+M20260202,2026-02-02,Non-Bibs,ismael_nazar,Ismael Nazar,new-player
+M20260210,2026-02-10,Bibs,faisal,Faisal,new-player
+M20260210,2026-02-10,Bibs,suki,Suki,new-player
+M20260210,2026-02-10,Bibs,ismael_nazar,Ismael Nazar,new-player
+M20260210,2026-02-10,Bibs,shergal_rodaina,Shergal Rodaina,new-player
+M20260210,2026-02-10,Bibs,matthew_eastwood,Matthew Eastwood,new-player
+M20260210,2026-02-10,Bibs,ian_anderson,Ian Anderson,new-player
+M20260210,2026-02-10,Bibs,sajjad,Sajjad,new-player
+M20260210,2026-02-10,Bibs,declan,Dec,alias
+M20260210,2026-02-10,Non-Bibs,oli_scott,Oli Scott,new-player
+M20260210,2026-02-10,Non-Bibs,tom_exon,Tom Exon,new-player
+M20260210,2026-02-10,Non-Bibs,haris_farooq,Haris Farooq,new-player
+M20260210,2026-02-10,Non-Bibs,umar_zaffar,Umar Zaffar,new-player
+M20260210,2026-02-10,Non-Bibs,james_roberts,James Roberts,new-player
+M20260210,2026-02-10,Non-Bibs,tom_clapham,Tom Clapham,new-player
+M20260210,2026-02-10,Non-Bibs,darren_ellis,Darren Ellis,new-player
+M20260210,2026-02-10,Non-Bibs,haroon_hanif,Haroon Hanif,new-player
+M20260324,2026-03-24,Non-Bibs,darren_ellis,Darren Ellis,new-player
+M20260324,2026-03-24,Non-Bibs,haroon_hanif,Haroon Hanif,new-player
+M20260324,2026-03-24,Non-Bibs,shergal_rodaina,Shergal Rodaina,new-player
+M20260324,2026-03-24,Non-Bibs,shakeel,Shakeel,new-player
+M20260324,2026-03-24,Non-Bibs,suki,Suki,new-player
+M20260324,2026-03-24,Non-Bibs,ismael_nazar,Ismael Nazar,new-player
+M20260324,2026-03-24,Non-Bibs,tom_clapham,Tom Clapham,new-player
+M20260324,2026-03-24,Bibs,umar_zaffar,Umar Zaffar,new-player
+M20260324,2026-03-24,Bibs,james_roberts,James Roberts,new-player
+M20260324,2026-03-24,Bibs,oli_scott,Oli Scott,new-player
+M20260324,2026-03-24,Bibs,haris_farooq,Haris Farooq,new-player
+M20260324,2026-03-24,Bibs,umair_noor,Umair Noor,new-player
+M20260324,2026-03-24,Bibs,matthew_eastwood,Matthew Eastwood,new-player
+M20260324,2026-03-24,Bibs,lee,Comical A-Lee,alias
+M20260401,2026-04-01,Bibs,faisal,Faisal,new-player
+M20260401,2026-04-01,Bibs,sajjad,Sajjad,new-player
+M20260401,2026-04-01,Bibs,matthew_eastwood,Matthew Eastwood,new-player
+M20260401,2026-04-01,Bibs,james_roberts,James Roberts,new-player
+M20260401,2026-04-01,Bibs,tom_clapham,Tom Clapham,new-player
+M20260401,2026-04-01,Bibs,shakeel,Shakeel,new-player
+M20260401,2026-04-01,Bibs,umar_zaffar,Umar Zaffar,new-player
+M20260401,2026-04-01,Bibs,darren_ellis,Darren Ellis,new-player
+M20260401,2026-04-01,Non-Bibs,ismael_nazar,Ismael Nazar,new-player
+M20260401,2026-04-01,Non-Bibs,riz_khan,Riz Khan,new-player
+M20260401,2026-04-01,Non-Bibs,oli_scott,Oli Scott,new-player
+M20260401,2026-04-01,Non-Bibs,suki,Suki,new-player
+M20260401,2026-04-01,Non-Bibs,tom_exon,Tom Exon,new-player
+M20260401,2026-04-01,Non-Bibs,haroon_hanif,Haroon Hanif,new-player
+M20260401,2026-04-01,Non-Bibs,haris_farooq,Haris Farooq,new-player
+M20260401,2026-04-01,Non-Bibs,shergal_rodaina,Shergal Rodaina,new-player
+M20260407,2026-04-07,Bibs,faisal,Faisal,new-player
+M20260407,2026-04-07,Bibs,darren_ellis,Darren Ellis,new-player
+M20260407,2026-04-07,Bibs,umar_zaffar,Umar Zaffar,new-player
+M20260407,2026-04-07,Bibs,shakeel,Shakeel,new-player
+M20260407,2026-04-07,Bibs,haris_farooq,Haris Farooq,new-player
+M20260407,2026-04-07,Bibs,ismael_nazar,Ismael Nazar,new-player
+M20260407,2026-04-07,Bibs,haroon_hanif,Haroon,alias
+M20260407,2026-04-07,Bibs,riz_khan,Rik,alias
+M20260407,2026-04-07,Non-Bibs,oli_scott,Oli Scott,new-player
+M20260407,2026-04-07,Non-Bibs,tom_exon,Tom Exon,new-player
+M20260407,2026-04-07,Non-Bibs,shergal_rodaina,Shergal Rodaina,new-player
+M20260407,2026-04-07,Non-Bibs,suki,Suki,new-player
+M20260407,2026-04-07,Non-Bibs,lee,Lee,new-player
+M20260407,2026-04-07,Non-Bibs,sajjad,Sajjad,new-player
+M20260407,2026-04-07,Non-Bibs,tom_clapham,Tom Clapham,new-player
+M20260407,2026-04-07,Non-Bibs,james_roberts,James Roberts,new-player
+M20260414,2026-04-14,Bibs,sajjad,Sajjad,new-player
+M20260414,2026-04-14,Bibs,lee,Lee,new-player
+M20260414,2026-04-14,Bibs,umair_noor,Umair Noor,new-player
+M20260414,2026-04-14,Bibs,oli_scott,Oli Scott,new-player
+M20260414,2026-04-14,Bibs,ismael_nazar,Ismael Nazar,new-player
+M20260414,2026-04-14,Bibs,shergal_rodaina,Shergal Rodaina,new-player
+M20260414,2026-04-14,Bibs,tom_exon,Tom Exon,new-player
+M20260414,2026-04-14,Non-Bibs,tom_clapham,Tom Clapham,new-player
+M20260414,2026-04-14,Non-Bibs,matthew_eastwood,Matt Eastwood,alias
+M20260414,2026-04-14,Non-Bibs,darren_ellis,Darren,alias
+M20260414,2026-04-14,Non-Bibs,james_roberts,James Roberts,new-player
+M20260414,2026-04-14,Non-Bibs,haris_farooq,Harris,alias
+M20260414,2026-04-14,Non-Bibs,suki,Suki,new-player
+M20260414,2026-04-14,Non-Bibs,haroon_hanif,Haroon,alias
+M20260421,2026-04-21,Bibs,lee,Lee,new-player
+M20260421,2026-04-21,Bibs,matthew_eastwood,Matthew Eastwood,new-player
+M20260421,2026-04-21,Bibs,riz_khan,Riz Khan,new-player
+M20260421,2026-04-21,Bibs,james_roberts,James Roberts,new-player
+M20260421,2026-04-21,Bibs,ismael_nazar,Ismael Nazar,new-player
+M20260421,2026-04-21,Bibs,shergal_rodaina,Shergal,alias
+M20260421,2026-04-21,Bibs,umar_zaffar,Umar Zaffar,new-player
+M20260421,2026-04-21,Non-Bibs,darren_ellis,Darren Ellis,new-player
+M20260421,2026-04-21,Non-Bibs,umair_noor,Umair Noor,new-player
+M20260421,2026-04-21,Non-Bibs,oli_scott,Oli Scott,new-player
+M20260421,2026-04-21,Non-Bibs,tom_exon,Tom Exon,new-player
+M20260421,2026-04-21,Non-Bibs,suki,Suki,new-player
+M20260421,2026-04-21,Non-Bibs,haris_farooq,Haris Farooq,new-player
+M20260421,2026-04-21,Non-Bibs,sajjad,Sajjad,new-player
+M20260429,2026-04-29,Bibs,kyle,Kyle,new-player
+M20260429,2026-04-29,Bibs,haroon_hanif,Haroon Hanif,new-player
+M20260429,2026-04-29,Bibs,lee,Lee,new-player
+M20260429,2026-04-29,Bibs,shakeel,Shakeel,new-player
+M20260429,2026-04-29,Bibs,darren_ellis,Darren Ellis,new-player
+M20260429,2026-04-29,Bibs,james_roberts,James Roberts,new-player
+M20260429,2026-04-29,Bibs,umar_zaffar,Umar Zaffar,new-player
+M20260429,2026-04-29,Bibs,haris_farooq,Haris Farooq,new-player
+M20260429,2026-04-29,Non-Bibs,ian_anderson,Ian Anderson,new-player
+M20260429,2026-04-29,Non-Bibs,sajjad,Sajjad,new-player
+M20260429,2026-04-29,Non-Bibs,aadil_farooq,Aadil Farooq,new-player
+M20260429,2026-04-29,Non-Bibs,oli_scott,Oli Scott,new-player
+M20260429,2026-04-29,Non-Bibs,matthew_eastwood,Matthew Eastwood,new-player
+M20260429,2026-04-29,Non-Bibs,suki,Suki,new-player
+M20260429,2026-04-29,Non-Bibs,umair_noor,Umair Noor,new-player
+M20260429,2026-04-29,Non-Bibs,riz_khan,Riz Khan,new-player
+M20260505,2026-05-05,Bibs,faisal,Faisal,new-player
+M20260505,2026-05-05,Bibs,oli_scott,Oli Scott,new-player
+M20260505,2026-05-05,Bibs,sajjad,Sajjad,new-player
+M20260505,2026-05-05,Bibs,matthew_eastwood,Matthew Eastwood,new-player
+M20260505,2026-05-05,Bibs,osama_mahmah,Osama Mahmah,new-player
+M20260505,2026-05-05,Bibs,eddy_richmond,Eddy Richmond,new-player
+M20260505,2026-05-05,Bibs,aadil_farooq,Aadil Farooq,new-player
+M20260505,2026-05-05,Bibs,haris_farooq,Haris Farooq,new-player
+M20260505,2026-05-05,Non-Bibs,ismael_nazar,Ismael Nazar,new-player
+M20260505,2026-05-05,Non-Bibs,shergal_rodaina,Shergal Rodaina,new-player
+M20260505,2026-05-05,Non-Bibs,james_roberts,James Roberts,new-player
+M20260505,2026-05-05,Non-Bibs,suki,Suki,new-player
+M20260505,2026-05-05,Non-Bibs,umar_zaffar,Umar Zaffar,new-player
+M20260505,2026-05-05,Non-Bibs,riz_khan,Riz Khan,new-player
+M20260505,2026-05-05,Non-Bibs,lee,Lee,new-player
+M20260505,2026-05-05,Non-Bibs,tom_clapham,Tom Clapham,new-player
+M20260512,2026-05-12,Bibs,faisal,Faisal,new-player
+M20260512,2026-05-12,Bibs,haris_farooq,Haris Farooq,new-player
+M20260512,2026-05-12,Bibs,aadil_farooq,Aadil Farooq,new-player
+M20260512,2026-05-12,Bibs,tom_clapham,Tom Clapham,new-player
+M20260512,2026-05-12,Bibs,shergal_rodaina,Shergal Rodaina,new-player
+M20260512,2026-05-12,Bibs,suki,Suki,new-player
+M20260512,2026-05-12,Bibs,kyle,Kyle,new-player
+M20260512,2026-05-12,Non-Bibs,sajjad,Sajjad,new-player
+M20260512,2026-05-12,Non-Bibs,ismael_nazar,Ismael Nazar,new-player
+M20260512,2026-05-12,Non-Bibs,james_roberts,James Roberts,new-player
+M20260512,2026-05-12,Non-Bibs,oli_scott,Oli Scott,new-player
+M20260512,2026-05-12,Non-Bibs,lee,Lee,new-player
+M20260512,2026-05-12,Non-Bibs,matthew_eastwood,Matthew Eastwood,new-player
+M20260512,2026-05-12,Non-Bibs,riz_khan,Riz Khan,new-player
+M20260519,2026-05-19,Bibs,faisal,Faisal,new-player
+M20260519,2026-05-19,Bibs,ian_anderson,Ian Anderson,new-player
+M20260519,2026-05-19,Bibs,ismael_nazar,Ismael Nazar,new-player
+M20260519,2026-05-19,Bibs,james_roberts,James Roberts,new-player
+M20260519,2026-05-19,Bibs,umar_zaffar,Umar Zaffar,new-player
+M20260519,2026-05-19,Bibs,declan,Dec,alias
+M20260519,2026-05-19,Bibs,oli_scott,Oli Scott,new-player
+M20260519,2026-05-19,Non-Bibs,suki,Suki,new-player
+M20260519,2026-05-19,Non-Bibs,sajjad,Sajjad,new-player
+M20260519,2026-05-19,Non-Bibs,osama_mahmah,Osama Mahmah,new-player
+M20260519,2026-05-19,Non-Bibs,shergal_rodaina,Shergal Rodaina,new-player
+M20260519,2026-05-19,Non-Bibs,lee,Lee,new-player
+M20260519,2026-05-19,Non-Bibs,darren_ellis,Darren Ellis,new-player
+M20260519,2026-05-19,Non-Bibs,haris_farooq,Haris Farooq,new-player
+M20260609,2026-06-09,Bibs,faisal,Faisal,new-player
+M20260609,2026-06-09,Bibs,umar_zaffar,Umar Zaffar,new-player
+M20260609,2026-06-09,Bibs,tom_clapham,Tom Clapham,new-player
+M20260609,2026-06-09,Bibs,haris_farooq,Haris Farooq,new-player
+M20260609,2026-06-09,Bibs,riz_khan,Riz Khan,new-player
+M20260609,2026-06-09,Bibs,james_roberts,James Roberts,new-player
+M20260609,2026-06-09,Bibs,sajjad,Sajjad,new-player
+M20260609,2026-06-09,Non-Bibs,oli_scott,Oli Scott,new-player
+M20260609,2026-06-09,Non-Bibs,suki,Suki,new-player
+M20260609,2026-06-09,Non-Bibs,darren_ellis,Darren Ellis,new-player
+M20260609,2026-06-09,Non-Bibs,vadim,Vadim,new-player
+M20260609,2026-06-09,Non-Bibs,ismael_nazar,Ismael Nazar,new-player
+M20260609,2026-06-09,Non-Bibs,tom_exon,Tom Exon,new-player
+M20260609,2026-06-09,Non-Bibs,lee,Lee,new-player
+M20260616,2026-06-16,Bibs,faisal,Faisal,new-player
+M20260616,2026-06-16,Bibs,matthew_eastwood,Matthew Eastwood,new-player
+M20260616,2026-06-16,Bibs,riz_khan,Riz Khan,new-player
+M20260616,2026-06-16,Bibs,shergal_rodaina,Shergal Rodaina,new-player
+M20260616,2026-06-16,Bibs,haris_farooq,Haris Farooq,new-player
+M20260616,2026-06-16,Bibs,oli_scott,Oli Scott,new-player
+M20260616,2026-06-16,Bibs,tariq,Tariq,new-player
+M20260616,2026-06-16,Non-Bibs,james_roberts,James Roberts,new-player
+M20260616,2026-06-16,Non-Bibs,nick_ahad,Nick Ahad,new-player
+M20260616,2026-06-16,Non-Bibs,aadil_farooq,Aadil Farooq,new-player
+M20260616,2026-06-16,Non-Bibs,ismael_nazar,Ismael Nazar,new-player
+M20260616,2026-06-16,Non-Bibs,lee,Lee,new-player
+M20260616,2026-06-16,Non-Bibs,tom_exon,Tom Exon,new-player
+M20260616,2026-06-16,Non-Bibs,fezaan,Fezaan,new-player
+M20260625,2026-06-25,Bibs,faisal,Faisal,new-player
+M20260625,2026-06-25,Bibs,suki,Suki,new-player
+M20260625,2026-06-25,Bibs,darren_ellis,Darren Ellis,new-player
+M20260625,2026-06-25,Bibs,haroon_hanif,Haroon,alias
+M20260625,2026-06-25,Bibs,vadim,Vadim,new-player
+M20260625,2026-06-25,Non-Bibs,lee,Lee,new-player
+M20260625,2026-06-25,Non-Bibs,tom_exon,Tom Exon,new-player
+M20260625,2026-06-25,Non-Bibs,oli_scott,Oli Scott,new-player
+M20260625,2026-06-25,Non-Bibs,ismael_nazar,Ismael Nazar,new-player
+M20260625,2026-06-25,Non-Bibs,shergal_rodaina,Shergal Rodaina,new-player
+M20260630,2026-06-30,Bibs,faisal,Faisal,new-player
+M20260630,2026-06-30,Bibs,tom_clapham,Tom Clapham,new-player
+M20260630,2026-06-30,Bibs,haroon_hanif,Haroon Hanif,new-player
+M20260630,2026-06-30,Bibs,haris_farooq,Haris Farooq,new-player
+M20260630,2026-06-30,Bibs,aadil_farooq,Aadil Farooq,new-player
+M20260630,2026-06-30,Bibs,james_roberts,James Roberts,new-player
+M20260630,2026-06-30,Bibs,suki,Suki,new-player
+M20260630,2026-06-30,Non-Bibs,nick_ahad,Nick Ahad,new-player
+M20260630,2026-06-30,Non-Bibs,ismael_nazar,Ismael Nazar,new-player
+M20260630,2026-06-30,Non-Bibs,tom_exon,Tom Exon,new-player
+M20260630,2026-06-30,Non-Bibs,darren_ellis,Darren Ellis,new-player
+M20260630,2026-06-30,Non-Bibs,lee,Lee,new-player
+M20260630,2026-06-30,Non-Bibs,oli_scott,Oli Scott,new-player
+M20260630,2026-06-30,Non-Bibs,shergal_rodaina,Shergal Rodaina,new-player
+M20260707,2026-07-07,Bibs,vadim,Vadim,new-player
+M20260707,2026-07-07,Bibs,aadil_farooq,Aadil Farooq,new-player
+M20260707,2026-07-07,Bibs,suki,Suki,new-player
+M20260707,2026-07-07,Bibs,james_roberts,James Roberts,new-player
+M20260707,2026-07-07,Bibs,tom_exon,Tom Exon,new-player
+M20260707,2026-07-07,Bibs,haris_farooq,Haris Farooq,new-player
+M20260707,2026-07-07,Bibs,oli_scott,Oli Scott,new-player
+M20260707,2026-07-07,Non-Bibs,hamad,Hamad,new-player
+M20260707,2026-07-07,Non-Bibs,lee,Lee,new-player
+M20260707,2026-07-07,Non-Bibs,riz_khan,Riz,alias
+M20260707,2026-07-07,Non-Bibs,haroon_hanif,Haroon Hanif,new-player
+M20260707,2026-07-07,Non-Bibs,tom_clapham,Tom Clapham,new-player
+M20260707,2026-07-07,Non-Bibs,marc_coleman,Marc Coleman,new-player
+M20260707,2026-07-07,Non-Bibs,shergal_rodaina,Shergal Rodaina,new-player
