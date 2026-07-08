@@ -25,8 +25,7 @@ if (nrow(db$parse_issues) > 0) {
 message("2/4 Rendering figures to figures/ ...")
 figs <- all_figures(db)
 sizes <- list(co_occurrence = c(11, 10), h2h_heatmap = c(10, 9),
-              network = c(11, 8.5), player_timeline = c(9, 8),
-              calendar_heatmap = c(9, 7))
+              network = c(11, 8.5), player_timeline = c(9, 8))
 for (nm in names(figs)) {
   sz <- sizes[[nm]] %||% c(9, 6)
   save_figure(figs[[nm]], nm, width = sz[1], height = sz[2])

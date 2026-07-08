@@ -43,14 +43,14 @@ shiny::runApp()        # from the project root
 | **Compare** | two players side by side, as teammates *and* as rivals |
 | **Partnerships** | best duos with confidence intervals, co-occurrence heatmap, trios→quintets |
 | **Head-to-head** | who-beats-whom heatmap and full records |
-| **Network** | interactive (plotly) network, centrality table |
-| **Trends** | rolling win %, bib dominance, cumulative appearances, calendar |
-| **Data** | **upload new team sheets** (paste or file), preview the parse, review issues, commit — every statistic updates automatically; edit aliases; download any table or figure |
+| **Network** | interactive (plotly) network with plain-English measure explanations, centrality table |
+| **Trends** | rolling win %, bib dominance, cumulative appearances |
 
-Uploading a new week is the whole point: paste the sheet exactly as it comes
-out of the group chat, hit *Preview parse* (check the issues table), then
-*Commit to database*. Attendance, win rates, networks and discoveries all
-refresh instantly.
+The public app is **read-only** (it runs entirely in the browser as a
+static shinylive site). Adding a new week's results is done through GitHub,
+where only collaborators have write access: append the sheet — as messy as
+you like — to `data-raw/team_sheets_raw.txt` on `main` and the site rebuilds
+and redeploys itself with every statistic updated.
 
 ## Project layout
 
